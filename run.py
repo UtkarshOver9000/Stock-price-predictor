@@ -1,5 +1,5 @@
 """
-Stock Price Movement Predictor - Multi-Asset Production Pipeline
+Stock Price Movement Predictor - Multi-Asset Research Pipeline
 ================================================================
 Predicts daily price direction (Up / Down) from historical OHLCV data.
 
@@ -316,7 +316,9 @@ def run_cross_asset_benchmark():
         y_pred = rf.predict(Xe_te)
         
         acc = accuracy_score(y_te, y_pred)
-        maj_acc = max(y_tr.mean(), 1.0 - y_tr.mean())
+        # Best constant guess ("always up" or "always down") scored on the test period itself:
+        # the conservative baseline a model must beat.
+        maj_acc = max(y_te.mean(), 1.0 - y_te.mean())
         lift = acc - maj_acc
 
         summary_records.append({

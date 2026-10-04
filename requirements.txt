@@ -1,5 +1,8 @@
-# Stock Price Movement Predictor - Pinned Dependencies
-pandas==2.3.2
-numpy==1.26.4
-scikit-learn==1.8.0
-matplotlib==3.7.2
+# Pinned versions used to produce the results in README.md and reports/.
+pandas==3.0.6
+numpy==2.4.6
+scikit-learn==1.9.1
+scipy==1.17.1
+matplotlib==3.11.2
+yfinance==1.7.0
+pytest>=8.0

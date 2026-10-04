@@ -17,6 +17,11 @@ def load_ohlcv(path: str) -> pd.DataFrame:
     df = pd.read_csv(path, parse_dates=["Date"])
     df = df.sort_values("Date").reset_index(drop=True)
     df = df.rename(columns={"Adj Close": "AdjClose"})
+    # Put Open/High/Low on the same split- and dividend-adjusted scale as AdjClose,
+    # otherwise gap, range and close-position features jump at every stock split.
+    factor = df["AdjClose"] / df["Close"]
+    for col in ("Open", "High", "Low"):
+        df[col] = df[col] * factor
     return df
 
 
@@ -148,7 +153,8 @@ def build_engineered_features(df: pd.DataFrame) -> pd.DataFrame:
     out["gap"] = df["Open"] / close.shift(1) - 1.0
     out["close_position"] = (close - df["Low"]) / hl
 
-    return out
+    # Zero-volume or zero-range days (common in older data) produce +/-inf; treat them as missing.
+    return out.replace([np.inf, -np.inf], np.nan)
 
 
 def build_raw_price_features(df: pd.DataFrame, n_lags: int = 5) -> pd.DataFrame:

@@ -4,13 +4,6 @@
   "buildCommand": null,
   "outputDirectory": ".",
   "rewrites": [
-    {
-      "source": "/",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/dashboard",
-      "destination": "/dashboard.html"
-    }
+    { "source": "/dashboard", "destination": "/index.html" }
   ]
 }
